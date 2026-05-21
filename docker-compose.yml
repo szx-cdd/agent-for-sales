@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  sales-agent:
+    build: .
+    container_name: sales-agent
+    ports:
+      - "80:8000"
+    environment:
+      - KIMI_API_KEY=sk-x5YNWu5BZeGyVGKiuQG90obxZlT1R2xMhSSa4A5d7bkdbuoO
+      - KIMI_BASE_URL=https://api.moonshot.cn/v1
+      - KIMI_MODEL=moonshot-v1-8k-vision-preview
+      - KIMI_TEXT_MODEL=moonshot-v1-32k
+      - MAX_TOKENS=4096
+      - TEMPERATURE=0.7
+    restart: always

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户管理 - 销售成单推演 Agent</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .nav-brand {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-link {
+            color: #666;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #667eea;
+            background: #f0f4ff;
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        /* 操作栏 */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .search-box {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+            max-width: 500px;
+        }
+        .search-input {
+            flex: 1;
+            padding: 10px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        .btn-danger {
+            background: #ff4d4f;
+        }
+        .btn-danger:hover {
+            background: #ff7875;
+        }
+
+        /* 客户列表 */
+        .customer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .customer-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid #667eea;
+        }
+        .customer-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .customer-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .customer-company {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        .customer-meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .tag {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .tag-primary { background: #e6f7ff; color: #1890ff; }
+        .tag-success { background: #f6ffed; color: #52c41a; }
+        .tag-info { background: #f0f4ff; color: #667eea; }
+        .customer-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: #999;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 12px;
+        }
+        .customer-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .customer-actions .btn {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        .empty-text {
+            color: #999;
+            font-size: 16px;
+        }
+
+        /* 弹窗 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.show {
+            display: flex;
+        }
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+        .modal-body {
+            padding: 24px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #333;
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* 加载状态 */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-brand">📊 销售成单推演 Agent</div>
+            <div class="nav-links">
+                <a href="/" class="nav-link">快速分析</a>
+                <a href="/customers" class="nav-link active">客户管理</a>
+            </div>
+        </nav>
+
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalCustomers">0</div>
+                <div class="stat-label">客户总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="todayNew">0</div>
+                <div class="stat-label">今日新增</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="weeklyActive">0</div>
+                <div class="stat-label">本周活跃</div>
+            </div>
+        </div>
+
+        <!-- 主内容 -->
+        <div class="main-content">
+            <div class="toolbar">
+                <div class="search-box">
+                    <input type="text" class="search-input" id="searchInput" placeholder="搜索客户姓名、公司或电话...">
+                    <select class="form-select" id="industryFilter" style="width: 150px;">
+                        <option value="">全部行业</option>
+                        <option value="SaaS">SaaS/企业服务</option>
+                        <option value="电商">电商/零售</option>
+                        <option value="教育">教育培训</option>
+                        <option value="金融">金融/保险</option>
+                        <option value="制造">制造业</option>
+                        <option value="医疗">医疗健康</option>
+                        <option value="其他">其他</option>
+                    </select>
+                    <button class="btn btn-secondary" onclick="searchCustomers()">搜索</button>
+                </div>
+                <button class="btn" onclick="openAddModal()">+ 新增客户</button>
+            </div>
+
+            <div id="customerList" class="customer-grid">
+                <!-- 客户列表将在这里渲染 -->
+            </div>
+
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-icon">👥</div>
+                <div class="empty-text">暂无客户，点击"新增客户"添加</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新增客户弹窗 -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">新增客户</div>
+                <button class="modal-close" onclick="closeAddModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addCustomerForm">
+                    <div class="form-group">
+                        <label class="form-label">客户姓名 *</label>
+                        <input type="text" class="form-input" name="name" required placeholder="请输入客户姓名">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">公司名称</label>
+                        <input type="text" class="form-input" name="company" placeholder="请输入公司名称">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">行业类型</label>
+                        <select class="form-select" name="industry">
+                            <option value="">请选择</option>
+                            <option value="SaaS">SaaS/企业服务</option>
+                            <option value="电商">电商/零售</option>
+                            <option value="教育">教育培训</option>
+                            <option value="金融">金融/保险</option>
+                            <option value="制造">制造业</option>
+                            <option value="医疗">医疗健康</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">联系电话</label>
+                        <input type="text" class="form-input" name="phone" placeholder="请输入联系电话">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">电子邮箱</label>
+                        <input type="email" class="form-input" name="email" placeholder="请输入电子邮箱">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">备注</label>
+                        <textarea class="form-textarea" name="notes" placeholder="客户的基本信息、需求描述等..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAddModal()">取消</button>
+                <button class="btn" onclick="submitAddCustomer()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载时获取数据
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStatistics();
+            loadCustomers();
+        });
+
+        // 加载统计数据
+        function loadStatistics() {
+            fetch('/api/statistics')
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('totalCustomers').textContent = data.statistics.total_customers;
+                        document.getElementById('todayNew').textContent = data.statistics.today_new;
+                        document.getElementById('weeklyActive').textContent = data.statistics.weekly_active;
+                    }
+                });
+        }
+
+        // 加载客户列表
+        function loadCustomers(search, industry) {
+            var url = '/api/customers';
+            var params = [];
+            if (search) params.push('search=' + encodeURIComponent(search));
+            if (industry) params.push('industry=' + encodeURIComponent(industry));
+            if (params.length) url += '?' + params.join('&');
+
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        renderCustomers(data.customers);
+                    }
+                });
+        }
+
+        // 渲染客户列表
+        function renderCustomers(customers) {
+            var container = document.getElementById('customerList');
+            var emptyState = document.getElementById('emptyState');
+
+            if (!customers || customers.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            var html = '';
+            for (var i = 0; i < customers.length; i++) {
+                var c = customers[i];
+                html += renderCustomerCard(c);
+            }
+            container.innerHTML = html;
+        }
+
+        // 渲染单个客户卡片
+        function renderCustomerCard(customer) {
+            var industryTag = customer.industry ? '<span class="tag tag-primary">' + customer.industry + '</span>' : '';
+            var companyText = customer.company || '暂无公司信息';
+
+            return '<div class="customer-card" onclick="viewCustomer(' + customer.id + ')">' +
+                '<div class="customer-name">' + customer.name + '</div>' +
+                '<div class="customer-company">' + companyText + '</div>' +
+                '<div class="customer-meta">' + industryTag + '</div>' +
+                '<div class="customer-actions" onclick="event.stopPropagation()">' +
+                    '<button class="btn" onclick="viewCustomer(' + customer.id + ')">查看详情</button>' +
+                    '<button class="btn btn-danger" onclick="deleteCustomer(' + customer.id + ')">删除</button>' +
+                '</div>' +
+            '</div>';
+        }
+
+        // 搜索客户
+        function searchCustomers() {
+            var search = document.getElementById('searchInput').value;
+            var industry = document.getElementById('industryFilter').value;
+            loadCustomers(search, industry);
+        }
+
+        // 查看客户详情
+        function viewCustomer(id) {
+            window.location.href = '/customers/' + id;
+        }
+
+        // 删除客户
+        function deleteCustomer(id) {
+            if (!confirm('确定要删除这个客户吗？相关数据将无法恢复。')) return;
+
+            fetch('/api/customers/' + id, { method: 'DELETE' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        loadCustomers();
+                        loadStatistics();
+                    } else {
+                        alert('删除失败: ' + data.error);
+                    }
+                });
+        }
+
+        // 打开新增弹窗
+        function openAddModal() {
+            document.getElementById('addModal').classList.add('show');
+        }
+
+        // 关闭新增弹窗
+        function closeAddModal() {
+            document.getElementById('addModal').classList.remove('show');
+            document.getElementById('addCustomerForm').reset();
+        }
+
+        // 提交新增客户
+        function submitAddCustomer() {
+            var form = document.getElementById('addCustomerForm');
+            var formData = new FormData(form);
+
+            fetch('/api/customers', {
+                method: 'POST',
+                body: formData
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    closeAddModal();
+                    loadCustomers();
+                    loadStatistics();
+                } else {
+                    alert('创建失败: ' + data.error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

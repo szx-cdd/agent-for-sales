@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>销售成单推演 Agent</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #e0e0e0;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        .loading {
+            text-align: center;
+            color: #667eea;
+            display: none;
+            padding: 40px;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .tab.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* 文件上传区域 */
+        .upload-wrapper {
+            margin-bottom: 15px;
+        }
+        .upload-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #f0f4ff;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .upload-btn:hover {
+            background: #e0e8ff;
+        }
+        .file-list {
+            margin-top: 15px;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .file-item.success {
+            border-left-color: #52c41a;
+        }
+        .file-item.error {
+            border-left-color: #ff4d4f;
+        }
+        .file-item.processing {
+            border-left-color: #faad14;
+        }
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+        .file-icon {
+            font-size: 24px;
+        }
+        .file-details {
+            flex: 1;
+        }
+        .file-name {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+        .file-status {
+            font-size: 12px;
+            color: #999;
+            margin-top: 2px;
+        }
+        .file-status.processing { color: #faad14; }
+        .file-status.success { color: #52c41a; }
+        .file-status.error { color: #ff4d4f; }
+        .file-remove {
+            background: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .file-remove:hover {
+            background: #ff7875;
+        }
+
+        .extracted-content {
+            margin-top: 15px;
+            padding: 16px;
+            background: #f6ffed;
+            border: 1px solid #b7eb8f;
+            border-radius: 8px;
+        }
+        .extracted-content h4 {
+            font-size: 14px;
+            color: #52c41a;
+            margin-bottom: 10px;
+        }
+        .extracted-content pre {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #666;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .action-buttons .btn,
+        .action-buttons .btn-secondary {
+            flex: 1;
+        }
+
+        /* 分析结果样式 */
+        .result-container {
+            margin-top: 30px;
+            display: none;
+        }
+        .result-container.show {
+            display: block;
+        }
+        .result-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .result-card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .result-card-body {
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            padding-left: 12px;
+            border-left: 4px solid #667eea;
+        }
+        .section-content {
+            color: #555;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+        .highlight-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 10px 0;
+        }
+        .highlight-label {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+        .highlight-value {
+            color: #333;
+        }
+        .probability-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .probability-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .probability-bar-bg {
+            flex: 1;
+            height: 12px;
+            background: #e8e8e8;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .probability-bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+        .probability-high { background: linear-gradient(90deg, #52c41a, #73d13d); }
+        .probability-medium { background: linear-gradient(90deg, #faad14, #ffc53d); }
+        .probability-low { background: linear-gradient(90deg, #ff4d4f, #ff7875); }
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+        .info-list li {
+            padding: 10px 0;
+            padding-left: 24px;
+            position: relative;
+            color: #555;
+            line-height: 1.6;
+        }
+        .info-list li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        .script-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 10px 0;
+        }
+        .script-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .script-content {
+            color: #555;
+            line-height: 1.8;
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #52c41a;
+        }
+        .warning-box {
+            background: #fff2f0;
+            border-left: 4px solid #ff4d4f;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 10px 0;
+        }
+        .warning-title {
+            color: #ff4d4f;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .data-table th {
+            background: #f5f5f5;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            font-size: 13px;
+        }
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+            font-size: 13px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+        .tag-primary { background: #e6f7ff; color: #1890ff; }
+        .tag-success { background: #f6ffed; color: #52c41a; }
+        .tag-warning { background: #fffbe6; color: #faad14; }
+        .tag-danger { background: #fff2f0; color: #ff4d4f; }
+    </style>
+</head>
+<body>
+    <nav class="navbar" style="background: white; border-radius: 12px; padding: 16px 24px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+        <div style="font-size: 20px; font-weight: 600; color: #333;">📊 销售成单推演 Agent</div>
+        <div style="display: flex; gap: 20px;">
+            <a href="/" style="color: #667eea; text-decoration: none; padding: 8px 16px; border-radius: 6px; background: #f0f4ff;">快速分析</a>
+            <a href="/customers" style="color: #666; text-decoration: none; padding: 8px 16px; border-radius: 6px;">客户管理</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>快速分析</h1>
+        <p class="subtitle">AI 驱动的客户分析与销售策略生成</p>
+
+        <div class="tabs">
+            <div class="tab active" data-type="full">完整分析</div>
+            <div class="tab" data-type="profile">客户画像</div>
+            <div class="tab" data-type="followup">跟进节奏</div>
+            <div class="tab" data-type="objection">异议攻防</div>
+            <div class="tab" data-type="reactivation">沉默激活</div>
+        </div>
+
+        <form id="analysisForm">
+            <div class="form-group">
+                <label for="industry">行业类型</label>
+                <select id="industry" name="industry">
+                    <option value="SaaS">SaaS/企业服务</option>
+                    <option value="电商">电商/零售</option>
+                    <option value="教育">教育培训</option>
+                    <option value="金融">金融/保险</option>
+                    <option value="制造">制造业</option>
+                    <option value="医疗">医疗健康</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="customer_info">客户基本信息</label>
+                <textarea id="customer_info" name="customer_info" placeholder="请描述客户的基本情况，如：&#10;- 公司规模、行业地位&#10;- 决策人职位、背景&#10;- 已了解的需求或痛点&#10;- 预算范围（如已知）"></textarea>
+            </div>
+
+            <!-- 文件上传 -->
+            <div class="form-group">
+                <label>上传聊天记录/文件</label>
+                <div class="upload-wrapper">
+                    <label class="upload-btn" for="fileInput">
+                        + 选择文件（支持图片、PDF、Word、Excel）
+                    </label>
+                    <input type="file" id="fileInput" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,video/*" style="display: none;">
+                </div>
+                <div class="file-list" id="fileList"></div>
+                <div class="extracted-content" id="extractedContent" style="display: none;">
+                    <h4>已识别的内容（已自动填充到沟通记录）：</h4>
+                    <pre id="extractedText"></pre>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="chat_history">沟通记录</label>
+                <textarea id="chat_history" name="chat_history" placeholder="粘贴与客户的聊天记录，或上传文件自动识别..."></textarea>
+            </div>
+
+            <input type="hidden" id="analysis_type" name="analysis_type" value="full">
+
+            <div class="action-buttons">
+                <button type="button" class="btn-secondary" id="clearFilesBtn">清除文件</button>
+                <button type="submit" class="btn" id="submitBtn">开始分析</button>
+            </div>
+        </form>
+
+        <div class="loading" id="loading">AI 正在分析中，请稍候...</div>
+
+        <div class="result-container" id="resultContainer"></div>
+    </div>
+
+    <script>
+        // 全局变量
+        let uploadedFiles = [];
+        let extractedContents = [];
+
+        // 标签切换
+        document.querySelectorAll('.tab').forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(function(t) {
+                    t.classList.remove('active');
+                });
+                tab.classList.add('active');
+                document.getElementById('analysis_type').value = tab.dataset.type;
+            });
+        });
+
+        // 文件上传功能
+        (function initFileUpload() {
+            var fileInput = document.getElementById('fileInput');
+            var fileList = document.getElementById('fileList');
+
+            fileInput.addEventListener('change', function(e) {
+                var files = e.target.files;
+                for (var i = 0; i < files.length; i++) {
+                    processFile(files[i]);
+                }
+                // 清空input以便重复选择
+                e.target.value = '';
+            });
+        })();
+
+        // 处理单个文件
+        function processFile(file) {
+            var fileId = Date.now() + Math.random();
+            uploadedFiles.push({ id: fileId, file: file });
+
+            // 添加到列表
+            var fileItem = document.createElement('div');
+            fileItem.className = 'file-item processing';
+            fileItem.id = 'file-' + fileId;
+
+            var icon = getFileIcon(file.name);
+            fileItem.innerHTML =
+                '<div class="file-info">' +
+                    '<span class="file-icon">' + icon + '</span>' +
+                    '<div class="file-details">' +
+                        '<div class="file-name">' + file.name + '</div>' +
+                        '<div class="file-status processing" id="status-' + fileId + '">正在上传识别...</div>' +
+                    '</div>' +
+                '</div>' +
+                '<button class="file-remove" onclick="removeFile(' + fileId + ')">删除</button>';
+
+            document.getElementById('fileList').appendChild(fileItem);
+
+            // 上传并识别
+            uploadFile(fileId, file);
+        }
+
+        // 获取文件图标
+        function getFileIcon(filename) {
+            var ext = filename.split('.').pop().toLowerCase();
+            if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'].indexOf(ext) >= 0) return '🖼️';
+            if (['mp4', 'mov', 'avi', 'mkv', 'webm'].indexOf(ext) >= 0) return '🎬';
+            if (ext === 'pdf') return '📄';
+            if (['doc', 'docx'].indexOf(ext) >= 0) return '📝';
+            if (['xls', 'xlsx'].indexOf(ext) >= 0) return '📊';
+            if (ext === 'txt') return '📃';
+            return '📎';
+        }
+
+        // 上传文件到服务器
+        function uploadFile(fileId, file) {
+            var formData = new FormData();
+            formData.append('files', file);
+
+            fetch('/api/upload-files', {
+                method: 'POST',
+                body: formData
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                var fileItem = document.getElementById('file-' + fileId);
+                var statusEl = document.getElementById('status-' + fileId);
+
+                if (data.success) {
+                    fileItem.classList.remove('processing');
+                    fileItem.classList.add('success');
+                    statusEl.textContent = '识别完成';
+                    statusEl.className = 'file-status success';
+
+                    // 保存内容
+                    extractedContents.push({
+                        filename: file.name,
+                        content: data.extracted_text
+                    });
+
+                    // 更新预览
+                    updateExtractedPreview();
+
+                    // 追加到沟通记录
+                    appendToChatHistory(file.name, data.extracted_text);
+                } else {
+                    throw new Error(data.error || '识别失败');
+                }
+            })
+            .catch(function(error) {
+                var fileItem = document.getElementById('file-' + fileId);
+                var statusEl = document.getElementById('status-' + fileId);
+                fileItem.classList.remove('processing');
+                fileItem.classList.add('error');
+                statusEl.textContent = '失败: ' + error.message;
+                statusEl.className = 'file-status error';
+            });
+        }
+
+        // 更新识别内容预览
+        function updateExtractedPreview() {
+            var previewEl = document.getElementById('extractedContent');
+            var textEl = document.getElementById('extractedText');
+
+            if (extractedContents.length > 0) {
+                previewEl.style.display = 'block';
+                var text = '';
+                for (var i = 0; i < extractedContents.length; i++) {
+                    if (i > 0) text += '\n\n';
+                    text += '=== ' + extractedContents[i].filename + ' ===\n' + extractedContents[i].content;
+                }
+                textEl.textContent = text;
+            }
+        }
+
+        // 追加到沟通记录
+        function appendToChatHistory(filename, content) {
+            var chatHistoryEl = document.getElementById('chat_history');
+            var newContent = '=== 来自文件: ' + filename + ' ===\n' + content + '\n\n';
+            chatHistoryEl.value = chatHistoryEl.value + newContent;
+        }
+
+        // 删除文件
+        function removeFile(fileId) {
+            var fileItem = document.getElementById('file-' + fileId);
+            if (fileItem) fileItem.remove();
+
+            // 从数组中移除
+            for (var i = 0; i < uploadedFiles.length; i++) {
+                if (uploadedFiles[i].id === fileId) {
+                    uploadedFiles.splice(i, 1);
+                    break;
+                }
+            }
+
+            // 更新预览
+            updateExtractedPreview();
+        }
+
+        // 清除所有文件
+        document.getElementById('clearFilesBtn').addEventListener('click', function() {
+            uploadedFiles = [];
+            extractedContents = [];
+            document.getElementById('fileList').innerHTML = '';
+            document.getElementById('extractedContent').style.display = 'none';
+        });
+
+        // 表单提交
+        document.getElementById('analysisForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var submitBtn = document.getElementById('submitBtn');
+            var loading = document.getElementById('loading');
+            var resultContainer = document.getElementById('resultContainer');
+
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+            resultContainer.classList.remove('show');
+
+            var formData = new FormData(e.target);
+
+            fetch('/api/analyze', {
+                method: 'POST',
+                body: formData
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                renderResult(data, formData.get('analysis_type'));
+                resultContainer.classList.add('show');
+            })
+            .catch(function(error) {
+                resultContainer.innerHTML = '<div class="result-card"><div class="result-card-body"><div class="warning-box"><div class="warning-title">请求失败</div>' + error.message + '</div></div></div>';
+                resultContainer.classList.add('show');
+            })
+            .finally(function() {
+                submitBtn.disabled = false;
+                loading.style.display = 'none';
+            });
+        });
+
+        // 渲染结果
+        function renderResult(data, analysisType) {
+            var container = document.getElementById('resultContainer');
+            var html = '';
+
+            if (data.error) {
+                html = '<div class="result-card"><div class="result-card-body"><div class="warning-box"><div class="warning-title">分析出错</div>' + data.error + '</div></div></div>';
+                container.innerHTML = html;
+                return;
+            }
+
+            if (analysisType === 'full' || data['客户画像']) {
+                html += renderCustomerProfile(data['客户画像'] || data);
+            }
+            if (analysisType === 'profile') {
+                html += renderCustomerProfile(data);
+            }
+            if (analysisType === 'followup' || data['跟进节奏']) {
+                html += renderFollowupPlan(data['跟进节奏'] || data);
+            }
+            if (analysisType === 'objection' || data['异议攻防']) {
+                html += renderObjectionHandling(data['异议攻防'] || data);
+            }
+            if (analysisType === 'reactivation' || data['沉默激活']) {
+                html += renderReactivation(data['沉默激活'] || data);
+            }
+
+            container.innerHTML = html;
+        }
+
+        // 渲染客户画像
+        function renderCustomerProfile(data) {
+            if (!data || typeof data !== 'object') return '';
+
+            var probability = (data['成单概率'] && data['成单概率']['概率']) ? data['成单概率']['概率'] : (data['成单概率'] || '50%');
+            var probNum = parseInt(probability) || 50;
+            var probClass = probNum >= 70 ? 'probability-high' : (probNum >= 40 ? 'probability-medium' : 'probability-low');
+
+            var html = '<div class="result-card">' +
+                '<div class="result-card-header">客户画像分析</div>' +
+                '<div class="result-card-body">' +
+                    '<div class="section">' +
+                        '<div class="section-title">成单概率评估</div>' +
+                        '<div class="probability-bar">' +
+                            '<div class="probability-value">' + probability + '</div>' +
+                            '<div class="probability-bar-bg">' +
+                                '<div class="probability-bar-fill ' + probClass + '" style="width: ' + probNum + '%"></div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="highlight-box">' +
+                            '<div class="highlight-label">判断依据</div>' +
+                            '<div class="highlight-value">' + ((data['成单概率'] && data['成单概率']['依据']) ? data['成单概率']['依据'] : (data['成单概率'] && data['成单概率']['预计成交周期']) ? data['成单概率']['预计成交周期'] : '暂无详细说明') + '</div>' +
+                        '</div>' +
+                    '</div>';
+
+            if (data['性格类型']) {
+                html += '<div class="section">' +
+                    '<div class="section-title">性格特征</div>' +
+                    '<div class="highlight-box">' +
+                        '<div class="highlight-label">类型：' + (data['性格类型']['类型'] || '未知') + '</div>' +
+                        '<div class="highlight-value">' + (data['性格类型']['特征'] || '') + '</div>' +
+                    '</div>' +
+                    '<p class="section-content"><strong>沟通偏好：</strong>' + (data['性格类型']['沟通偏好'] || '') + '</p>' +
+                '</div>';
+            }
+
+            if (data['需求层级']) {
+                html += '<div class="section">' +
+                    '<div class="section-title">需求分析</div>' +
+                    '<div class="highlight-box">' +
+                        '<div class="highlight-label">显性需求</div>' +
+                        '<div class="highlight-value">' + (data['需求层级']['显性需求'] || '') + '</div>' +
+                    '</div>' +
+                    '<div class="highlight-box">' +
+                        '<div class="highlight-label">隐性需求</div>' +
+                        '<div class="highlight-value">' + (data['需求层级']['隐性需求'] || '') + '</div>' +
+                    '</div>' +
+                    '<p class="section-content">' +
+                        '<span class="tag tag-primary">紧迫度 ' + (data['需求层级']['需求紧迫度'] || '-') + '/10</span>' +
+                        '<span class="tag tag-warning">' + (data['需求层级']['需求真伪'] || '') + '</span>' +
+                    '</p>' +
+                '</div>';
+            }
+
+            if (data['隐性顾虑'] && data['隐性顾虑'].length) {
+                html += '<div class="section">' +
+                    '<div class="section-title">隐性顾虑</div>' +
+                    '<ul class="info-list">';
+                for (var i = 0; i < data['隐性顾虑'].length; i++) {
+                    html += '<li>' + data['隐性顾虑'][i] + '</li>';
+                }
+                html += '</ul></div>';
+            }
+
+            if (data['风险预警'] && data['风险预警'].length) {
+                html += '<div class="section">' +
+                    '<div class="section-title">风险预警</div>';
+                for (var i = 0; i < data['风险预警'].length; i++) {
+                    html += '<div class="warning-box">' +
+                        '<div class="warning-title">风险提示</div>' +
+                        data['风险预警'][i] +
+                    '</div>';
+                }
+                html += '</div>';
+            }
+
+            html += '</div></div>';
+            return html;
+        }
+
+        // 渲染跟进计划
+        function renderFollowupPlan(data) {
+            if (!data || typeof data !== 'object') return '';
+
+            var plan = data['7天跟进计划'] || data['跟进计划'] || [];
+
+            var html = '<div class="result-card">' +
+                '<div class="result-card-header">7天跟进节奏规划</div>' +
+                '<div class="result-card-body">' +
+                    '<div class="highlight-box">' +
+                        '<div class="highlight-label">当前阶段：' + (data['当前阶段'] || '未知') + '</div>' +
+                        '<div class="highlight-value">' + (data['阶段判断依据'] || '') + '</div>' +
+                    '</div>';
+
+            if (plan.length) {
+                html += '<div class="section">' +
+                    '<div class="section-title">跟进计划</div>';
+                for (var i = 0; i < plan.length; i++) {
+                    var day = plan[i];
+                    html += '<div class="script-card">' +
+                        '<div class="script-title">第 ' + (day['第几天'] || day['天'] || (i+1)) + ' 天 - ' + (day['最佳触达时间'] || '') + '</div>' +
+                        '<p><strong>触达方式：</strong><span class="tag tag-primary">' + (day['触达方式'] || '') + '</span></p>' +
+                        '<p><strong>核心目标：</strong>' + (day['核心目标'] || '') + '</p>' +
+                        '<p><strong>必做动作：</strong>' + (day['必做动作'] || '') + '</p>' +
+                        '<div class="script-content">' +
+                            '<strong>话术要点：</strong><br>' + (day['推荐话术要点'] || '') +
+                        '</div>' +
+                        (day['禁忌话术'] ? '<p style="margin-top:8px;color:#ff4d4f;"><strong>禁忌：</strong>' + day['禁忌话术'] + '</p>' : '') +
+                    '</div>';
+                }
+                html += '</div>';
+            }
+
+            html += '</div></div>';
+            return html;
+        }
+
+        // 渲染异议攻防
+        function renderObjectionHandling(data) {
+            if (!data || typeof data !== 'object') return '';
+
+            var objections = data['异议攻防话术'] || data;
+            var scenarios = ['太贵了', '再考虑', '比价中', '要商量', '拖延症', '沉默不回'];
+            var titles = ['客户说：太贵了', '客户说：再考虑考虑', '客户说：正在对比其他家', '客户说：需要和领导商量', '客户一直拖延', '客户已读不回'];
+
+            var html = '<div class="result-card">' +
+                '<div class="result-card-header">异议攻防话术库</div>' +
+                '<div class="result-card-body">';
+
+            for (var i = 0; i < scenarios.length; i++) {
+                var item = objections[scenarios[i]];
+                if (!item) continue;
+
+                html += '<div class="section">' +
+                    '<div class="section-title">' + titles[i] + '</div>';
+
+                if (item['攻心逻辑']) {
+                    html += '<p class="section-content"><strong>攻心逻辑：</strong>' + item['攻心逻辑'] + '</p>';
+                }
+                if (item['定制话术'] || item['话术']) {
+                    html += '<div class="script-card">' +
+                        '<div class="script-title">推荐话术</div>' +
+                        '<div class="script-content">' + (item['定制话术'] || item['话术']) + '</div>' +
+                    '</div>';
+                }
+                if (item['下一步动作']) {
+                    html += '<p class="section-content"><strong>下一步：</strong>' + item['下一步动作'] + '</p>';
+                }
+
+                html += '</div>';
+            }
+
+            html += '</div></div>';
+            return html;
+        }
+
+        // 渲染沉默激活
+        function renderReactivation(data) {
+            if (!data || typeof data !== 'object') return '';
+
+            var html = '<div class="result-card">' +
+                '<div class="result-card-header">沉默客户激活方案</div>' +
+                '<div class="result-card-body">';
+
+            if (data['流失诊断']) {
+                html += '<div class="section">' +
+                    '<div class="section-title">流失诊断</div>' +
+                    '<div class="highlight-box">' +
+                        '<div class="highlight-label">沉默原因</div>' +
+                        '<div class="highlight-value">' + (data['流失诊断']['沉默原因分析'] || '') + '</div>' +
+                    '</div>' +
+                    '<p class="section-content"><strong>客户当前状态：</strong>' + (data['流失诊断']['客户当前状态'] || '') + '</p>' +
+                    '<p class="section-content"><strong>挽回可能性：</strong><span class="tag ' + ((data['流失诊断']['挽回可能性'] || '').indexOf('高') >= 0 ? 'tag-success' : ((data['流失诊断']['挽回可能性'] || '').indexOf('低') >= 0 ? 'tag-danger' : 'tag-warning')) + '">' + (data['流失诊断']['挽回可能性'] || '') + '</span></p>' +
+                '</div>';
+            }
+
+            if (data['激活方案']) {
+                html += '<div class="section">' +
+                    '<div class="section-title">分档激活方案</div>';
+
+                if (data['激活方案']['第一档-温和试探']) {
+                    html += '<div class="script-card">' +
+                        '<div class="script-title">第一档 - 温和试探</div>' +
+                        '<p><strong>发送时机：</strong>' + (data['激活方案']['第一档-温和试探']['发送时机'] || '') + '</p>' +
+                        '<div class="script-content">' + (data['激活方案']['第一档-温和试探']['话术'] || '') + '</div>' +
+                    '</div>';
+                }
+                if (data['激活方案']['第二档-价值唤醒']) {
+                    html += '<div class="script-card">' +
+                        '<div class="script-title">第二档 - 价值唤醒</div>' +
+                        '<p><strong>发送时机：</strong>' + (data['激活方案']['第二档-价值唤醒']['发送时机'] || '') + '</p>' +
+                        '<div class="script-content">' + (data['激活方案']['第二档-价值唤醒']['话术'] || '') + '</div>' +
+                    '</div>';
+                }
+                if (data['激活方案']['第三档-最后争取']) {
+                    html += '<div class="script-card">' +
+                        '<div class="script-title">第三档 - 最后争取</div>' +
+                        '<p><strong>发送时机：</strong>' + (data['激活方案']['第三档-最后争取']['发送时机'] || '') + '</p>' +
+                        '<div class="script-content">' + (data['激活方案']['第三档-最后争取']['话术'] || '') + '</div>' +
+                    '</div>';
+                }
+                html += '</div>';
+            }
+
+            html += '</div></div>';
+            return html;
+        }
+    </script>
+</body>
+</html>
