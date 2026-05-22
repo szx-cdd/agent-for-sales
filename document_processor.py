@@ -136,18 +136,23 @@ class DocumentProcessor:
                             },
                             {
                                 "type": "text",
-                                "text": """请识别图片中的文字内容。
+                                "text": """请识别图片中的文字内容，并严格按照以下JSON格式输出，不要添加任何markdown标记或其他说明文字：
 
-如果是聊天记录截图，请按以下格式输出：
-【时间】xxxx
-【对话内容】
-A: xxxx
-B: xxxx
+如果是聊天记录截图：
+{"type": "chat", "time": "识别到的时间或空字符串", "participants": ["参与者A", "参与者B"], "messages": [{"sender": "A", "content": "消息内容"}, {"sender": "B", "content": "消息内容"}], "summary": "对话要点总结，不超过50字"}
 
-如果是文档/表格，请提取所有文字信息。
-如果是名片/联系方式，请提取关键信息。
+如果是文档/表格：
+{"type": "document", "title": "文档标题或空字符串", "sections": [{"heading": "段落标题", "content": "段落内容"}, {"heading": "段落标题", "content": "段落内容"}], "key_points": ["要点1", "要点2", "要点3"]}
 
-请尽可能准确地识别所有文字。"""
+如果是名片/联系方式：
+{"type": "contact", "name": "姓名或空字符串", "company": "公司或空字符串", "title": "职位或空字符串", "phone": "电话或空字符串", "email": "邮箱或空字符串", "address": "地址或空字符串", "other": "其他信息或空字符串"}
+
+重要提示：
+1. 必须返回纯JSON格式，不要添加```json标记
+2. 不要添加任何解释说明文字
+3. 所有字段必须存在，没有值的用空字符串""
+4. messages数组至少包含2-3条关键对话
+5. 如果无法判断类型，返回：{"type": "text", "content": "识别的原始文字内容"}"""
                             }
                         ]
                     }
@@ -155,10 +160,29 @@ B: xxxx
                 max_tokens=2000,
                 temperature=0.3
             )
-            return response.choices[0].message.content
+            raw_content = response.choices[0].message.content.strip()
+
+            # 尝试提取JSON（可能被包裹在markdown代码块中）
+            import re
+            import json
+
+            # 尝试从markdown代码块中提取
+            json_match = re.search(r'```(?:json)?\s*\n?([\s\S]*?)\n?```', raw_content)
+            if json_match:
+                return json_match.group(1).strip()
+
+            # 尝试直接解析为JSON
+            try:
+                parsed = json.loads(raw_content)
+                return raw_content
+            except:
+                pass
+
+            # 如果不是JSON格式，包装成text类型
+            return json.dumps({"type": "text", "content": raw_content}, ensure_ascii=False)
 
         except Exception as e:
-            return f"识别失败: {str(e)}"
+            return json.dumps({"type": "text", "content": f"识别失败: {str(e)}"}, ensure_ascii=False)
 
     def _process_video(self, file_content: bytes, filename: str) -> dict:
         """处理视频文件 - 暂不支持内容识别"""

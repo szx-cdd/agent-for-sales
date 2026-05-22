@@ -445,9 +445,9 @@
             <div class="form-group">
                 <label>上传聊天记录/文件</label>
                 <div class="upload-wrapper">
-                    <label class="upload-btn" for="fileInput">
+                    <button type="button" class="upload-btn" id="fileSelectBtn">
                         + 选择文件（支持图片、PDF、Word、Excel）
-                    </label>
+                    </button>
                     <input type="file" id="fileInput" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,video/*" style="display: none;">
                 </div>
                 <div class="file-list" id="fileList"></div>
@@ -494,7 +494,14 @@
         // 文件上传功能
         (function initFileUpload() {
             var fileInput = document.getElementById('fileInput');
-            var fileList = document.getElementById('fileList');
+            var fileSelectBtn = document.getElementById('fileSelectBtn');
+
+            // 点击按钮触发文件选择
+            fileSelectBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                fileInput.click();
+            });
 
             fileInput.addEventListener('change', function(e) {
                 var files = e.target.files;
@@ -555,6 +562,9 @@
                 body: formData
             })
             .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status + ': ' + response.statusText);
+                }
                 return response.json();
             })
             .then(function(data) {
@@ -583,12 +593,17 @@
                 }
             })
             .catch(function(error) {
+                console.error('上传失败:', error);
                 var fileItem = document.getElementById('file-' + fileId);
                 var statusEl = document.getElementById('status-' + fileId);
-                fileItem.classList.remove('processing');
-                fileItem.classList.add('error');
-                statusEl.textContent = '失败: ' + error.message;
-                statusEl.className = 'file-status error';
+                if (fileItem) {
+                    fileItem.classList.remove('processing');
+                    fileItem.classList.add('error');
+                }
+                if (statusEl) {
+                    statusEl.textContent = '失败: ' + error.message;
+                    statusEl.className = 'file-status error';
+                }
             });
         }
 
@@ -613,6 +628,7 @@
             var chatHistoryEl = document.getElementById('chat_history');
             var newContent = '=== 来自文件: ' + filename + ' ===\n' + content + '\n\n';
             chatHistoryEl.value = chatHistoryEl.value + newContent;
+            console.log('已添加文件内容到沟通记录:', filename);
         }
 
         // 删除文件
@@ -643,29 +659,55 @@
         // 表单提交
         document.getElementById('analysisForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            console.log('表单提交被触发');
 
             var submitBtn = document.getElementById('submitBtn');
             var loading = document.getElementById('loading');
             var resultContainer = document.getElementById('resultContainer');
+            var chatHistory = document.getElementById('chat_history').value.trim();
+            var customerInfo = document.getElementById('customer_info').value.trim();
+
+            // 检查是否有内容可分析
+            if (!chatHistory && !customerInfo) {
+                alert('请填写客户基本信息或沟通记录后再进行分析');
+                return;
+            }
 
             submitBtn.disabled = true;
             loading.style.display = 'block';
             resultContainer.classList.remove('show');
+            resultContainer.innerHTML = '';
 
-            var formData = new FormData(e.target);
+            // 构建表单数据
+            var formData = new FormData();
+            formData.append('industry', document.getElementById('industry').value);
+            formData.append('customer_info', customerInfo);
+            formData.append('chat_history', chatHistory);
+            formData.append('analysis_type', document.getElementById('analysis_type').value);
+
+            var analysisType = document.getElementById('analysis_type').value;
+            console.log('分析类型:', analysisType);
 
             fetch('/api/analyze', {
                 method: 'POST',
                 body: formData
             })
             .then(function(response) {
+                console.log('收到响应:', response.status);
+                if (!response.ok) {
+                    return response.json().then(function(err) {
+                        throw new Error(err.error || 'HTTP ' + response.status);
+                    });
+                }
                 return response.json();
             })
             .then(function(data) {
-                renderResult(data, formData.get('analysis_type'));
+                console.log('响应数据:', data);
+                renderResult(data, analysisType);
                 resultContainer.classList.add('show');
             })
             .catch(function(error) {
+                console.error('请求失败:', error);
                 resultContainer.innerHTML = '<div class="result-card"><div class="result-card-body"><div class="warning-box"><div class="warning-title">请求失败</div>' + error.message + '</div></div></div>';
                 resultContainer.classList.add('show');
             })

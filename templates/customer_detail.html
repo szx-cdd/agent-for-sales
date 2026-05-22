@@ -12,285 +12,342 @@
             min-height: 100vh;
             padding: 20px;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* 导航栏 */
+        .container { max-width: 1200px; margin: 0 auto; }
         .navbar {
-            background: white;
-            border-radius: 12px;
-            padding: 16px 24px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background: white; border-radius: 12px; padding: 16px 24px;
+            margin-bottom: 20px; display: flex; justify-content: space-between;
+            align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
         .nav-brand { font-size: 20px; font-weight: 600; color: #333; }
         .nav-links { display: flex; gap: 20px; }
         .nav-link {
-            color: #666;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            transition: all 0.3s;
+            color: #666; text-decoration: none; padding: 8px 16px;
+            border-radius: 6px; transition: all 0.3s;
         }
         .nav-link:hover, .nav-link.active { color: #667eea; background: #f0f4ff; }
 
-        /* 客户头部信息 */
         .customer-header {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            background: white; border-radius: 12px; padding: 24px;
+            margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
         .customer-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            display: flex; justify-content: space-between; align-items: flex-start;
             margin-bottom: 16px;
         }
-        .customer-name {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-        }
-        .customer-company {
-            font-size: 16px;
-            color: #666;
-            margin-top: 4px;
-        }
-        .customer-meta {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+        .customer-name { font-size: 28px; font-weight: 700; color: #333; }
+        .customer-company { font-size: 16px; color: #666; margin-top: 4px; }
+        .customer-meta { display: flex; gap: 12px; flex-wrap: wrap; }
         .tag {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
+            padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
         }
         .tag-primary { background: #e6f7ff; color: #1890ff; }
-        .tag-success { background: #f6ffed; color: #52c41a; }
         .tag-info { background: #f0f4ff; color: #667eea; }
+        .tag-success { background: #f6ffed; color: #52c41a; }
 
-        /* 主内容区 */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        @media (max-width: 900px) {
-            .main-grid { grid-template-columns: 1fr; }
-        }
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
 
         .card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
+            background: white; border-radius: 12px; padding: 20px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
         .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #f0f0f0;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #f0f0f0;
         }
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-        }
+        .card-title { font-size: 18px; font-weight: 600; color: #333; }
 
-        /* 表单样式 */
         .form-group { margin-bottom: 16px; }
-        .form-label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-            color: #333;
-            font-size: 14px;
-        }
+        .form-label { display: block; margin-bottom: 6px; font-weight: 500; color: #333; font-size: 14px; }
         .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
+            width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0;
+            border-radius: 8px; font-size: 14px;
         }
         .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #667eea;
+            outline: none; border-color: #667eea;
         }
-        .form-textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
+        .form-textarea { min-height: 100px; resize: vertical; }
 
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
+            color: white; border: none; padding: 10px 20px;
+            border-radius: 8px; font-size: 14px; cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
         .btn-secondary { background: #f0f0f0; color: #333; }
         .btn-secondary:hover { background: #e0e0e0; }
         .btn-success { background: #52c41a; }
-        .btn-success:hover { background: #73d13d; }
         .btn-sm { padding: 6px 12px; font-size: 12px; }
 
-        /* 聊天记录 */
-        .chat-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
+        /* 聊天记录样式 - 美化版 */
+        .chat-list { max-height: 500px; overflow-y: auto; }
         .chat-item {
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border-left: 3px solid #667eea;
+            padding: 16px; background: #f8f9fa; border-radius: 12px;
+            margin-bottom: 16px; border-left: 4px solid #667eea;
+            transition: all 0.3s;
         }
+        .chat-item:hover { background: #f0f4ff; transform: translateX(4px); }
         .chat-time {
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 6px;
-        }
-        .chat-content {
-            font-size: 14px;
-            color: #333;
-            line-height: 1.6;
-            max-height: 100px;
-            overflow: hidden;
-        }
-        .chat-content.expanded {
-            max-height: none;
+            font-size: 12px; color: #999; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 8px;
         }
 
-        /* 文件上传 */
+        /* 对话气泡样式 */
+        .chat-conversation {
+            background: white; border-radius: 12px; padding: 16px; margin-top: 12px;
+        }
+        .chat-message {
+            display: flex; margin-bottom: 12px; align-items: flex-start;
+        }
+        .chat-message.own { flex-direction: row-reverse; }
+        .chat-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 600; flex-shrink: 0; margin: 0 8px;
+        }
+        .chat-message.own .chat-avatar {
+            background: linear-gradient(135deg, #52c41a 0%, #73d13d 100%);
+        }
+        .chat-bubble {
+            max-width: 70%; padding: 10px 14px; border-radius: 12px;
+            font-size: 14px; line-height: 1.5; word-wrap: break-word;
+        }
+        .chat-message:not(.own) .chat-bubble {
+            background: #f0f0f0; color: #333; border-bottom-left-radius: 4px;
+        }
+        .chat-message.own .chat-bubble {
+            background: #667eea; color: white; border-bottom-right-radius: 4px;
+        }
+        .chat-sender { font-size: 11px; color: #999; margin-bottom: 4px; }
+        .chat-summary {
+            background: #fff7e6; border: 1px solid #ffd591;
+            border-radius: 8px; padding: 12px; margin-top: 12px;
+            font-size: 13px; color: #d46b08;
+        }
+        .chat-summary-title {
+            font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+        }
+
+        /* 文档样式 */
+        .doc-section {
+            background: white; border-radius: 8px; padding: 12px;
+            margin-bottom: 12px; border-left: 3px solid #52c41a;
+        }
+        .doc-heading { font-weight: 600; color: #333; margin-bottom: 8px; font-size: 14px; }
+        .doc-content { color: #666; line-height: 1.6; font-size: 13px; }
+        .doc-keypoints {
+            background: #f6ffed; border: 1px solid #b7eb8f;
+            border-radius: 8px; padding: 12px; margin-top: 12px;
+        }
+        .doc-keypoints-title { font-weight: 600; color: #389e0d; margin-bottom: 8px; font-size: 13px; }
+        .doc-keypoints ul { margin: 0; padding-left: 20px; color: #52c41a; }
+        .doc-keypoints li { margin-bottom: 4px; font-size: 13px; }
+
+        /* 名片样式 */
+        .contact-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border-radius: 12px; padding: 20px; margin-top: 12px;
+        }
+        .contact-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .contact-title { font-size: 14px; opacity: 0.9; margin-bottom: 16px; }
+        .contact-item {
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 8px; font-size: 13px;
+        }
+
+        /* 上传区域 */
         .upload-area {
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            background: #fafafa;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 12px;
+            border: 2px dashed #ccc; border-radius: 8px; padding: 20px;
+            text-align: center; background: #fafafa; cursor: pointer;
+            transition: all 0.3s; margin-bottom: 12px;
         }
-        .upload-area:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
+        .upload-area:hover { border-color: #667eea; background: #f0f4ff; }
+
+        /* 原始文本切换 */
+        .raw-text-toggle {
+            color: #667eea; cursor: pointer; font-size: 12px;
+            margin-top: 8px; display: inline-flex; align-items: center; gap: 4px;
+        }
+        .raw-text-toggle:hover { text-decoration: underline; }
+        .raw-text {
+            background: white; border-radius: 8px; padding: 16px;
+            font-family: 'Consolas', 'Monaco', monospace; font-size: 13px;
+            line-height: 1.8; color: #333; white-space: pre-wrap;
+            word-wrap: break-word; border: 1px solid #e0e0e0;
         }
 
-        /* 分析结果 */
-        .analysis-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
+        .analysis-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
         .analysis-tab {
-            padding: 8px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
+            padding: 8px 16px; border: 2px solid #e0e0e0;
+            border-radius: 20px; cursor: pointer; font-size: 13px;
             transition: all 0.3s;
         }
-        .analysis-tab.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
+        .analysis-tab.active { background: #667eea; color: white; border-color: #667eea; }
 
         .result-card {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 12px;
+            background: #f8f9fa; border-radius: 8px; padding: 16px; margin-bottom: 12px;
         }
-        .result-title {
+        .result-title { font-weight: 600; color: #333; margin-bottom: 8px; font-size: 14px; }
+        .result-content { color: #555; line-height: 1.6; font-size: 13px; }
+
+        .history-item {
+            padding: 12px; border-bottom: 1px solid #f0f0f0;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .history-item:hover { background: #f8f9fa; }
+        .history-type { font-weight: 600; color: #667eea; font-size: 13px; }
+        .history-time { font-size: 12px; color: #999; margin-top: 4px; }
+
+        .loading { text-align: center; padding: 40px; color: #667eea; }
+
+        .probability-bar { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
+        .probability-value { font-size: 24px; font-weight: 700; color: #667eea; }
+        .probability-bg { flex: 1; height: 10px; background: #e8e8e8; border-radius: 5px; overflow: hidden; }
+        .probability-fill { height: 100%; border-radius: 5px; transition: width 0.5s ease; }
+
+        /* 分析结果样式 - 和快速分析保持一致 */
+        .analysis-result-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .analysis-result-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .analysis-result-body { padding: 20px; }
+        .analysis-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .analysis-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .analysis-section-title {
+            font-size: 14px;
             font-weight: 600;
             color: #333;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-bottom: 12px;
+            padding-left: 12px;
+            border-left: 4px solid #667eea;
         }
-        .result-content {
+        .analysis-section-content { color: #555; line-height: 1.8; font-size: 13px; }
+        .analysis-highlight-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 10px 0;
+        }
+        .analysis-highlight-label {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+        .analysis-highlight-value { color: #333; font-size: 13px; }
+        .analysis-prob-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .analysis-prob-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .analysis-prob-bg {
+            flex: 1;
+            height: 12px;
+            background: #e8e8e8;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .analysis-prob-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+        .analysis-prob-high { background: linear-gradient(90deg, #52c41a, #73d13d); }
+        .analysis-prob-medium { background: linear-gradient(90deg, #faad14, #ffc53d); }
+        .analysis-prob-low { background: linear-gradient(90deg, #ff4d4f, #ff7875); }
+        .analysis-info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .analysis-info-list li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
             color: #555;
             line-height: 1.6;
             font-size: 13px;
         }
-
-        /* 历史记录 */
-        .history-item {
-            padding: 12px;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .history-item:hover { background: #f8f9fa; }
-        .history-type {
-            font-weight: 600;
+        .analysis-info-list li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
             color: #667eea;
+            font-weight: bold;
+        }
+        .analysis-script-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+        .analysis-script-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
             font-size: 13px;
         }
-        .history-time {
+        .analysis-script-content {
+            color: #555;
+            line-height: 1.8;
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #52c41a;
+            font-size: 13px;
+        }
+        .analysis-warning-box {
+            background: #fff2f0;
+            border-left: 4px solid #ff4d4f;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin: 10px 0;
+        }
+        .analysis-warning-title {
+            color: #ff4d4f;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+        .analysis-tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 4px;
             font-size: 12px;
-            color: #999;
-            margin-top: 4px;
-        }
-
-        /* 加载状态 */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #667eea;
-        }
-
-        /* 概率条 */
-        .probability-bar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 12px 0;
-        }
-        .probability-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: #667eea;
-        }
-        .probability-bg {
-            flex: 1;
-            height: 10px;
-            background: #e8e8e8;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        .probability-fill {
-            height: 100%;
-            border-radius: 5px;
-            transition: width 0.5s ease;
+            font-weight: 500;
+            margin-right: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 导航栏 -->
         <nav class="navbar">
             <div class="nav-brand">📊 {{ customer.name }} - 客户详情</div>
             <div class="nav-links">
@@ -299,7 +356,6 @@
             </div>
         </nav>
 
-        <!-- 客户头部 -->
         <div class="customer-header">
             <div class="customer-title">
                 <div>
@@ -317,11 +373,8 @@
             </div>
         </div>
 
-        <!-- 主内容 -->
         <div class="main-grid">
-            <!-- 左侧：客户信息和聊天记录 -->
             <div>
-                <!-- 基本信息 -->
                 <div class="card" style="margin-bottom: 20px;">
                     <div class="card-header">
                         <div class="card-title">基本信息</div>
@@ -364,13 +417,10 @@
                     </form>
                 </div>
 
-                <!-- 聊天记录 -->
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">沟通记录</div>
                     </div>
-
-                    <!-- 添加新记录 -->
                     <div style="margin-bottom: 16px;">
                         <textarea class="form-textarea" id="newChatContent" placeholder="输入新的聊天记录，或上传文件..." style="margin-bottom: 8px;"></textarea>
                         <div class="upload-area" onclick="document.getElementById('chatFileInput').click()">
@@ -380,34 +430,24 @@
                         <input type="file" id="chatFileInput" multiple accept="image/*,.pdf,.doc,.docx,.txt" style="display: none;" onchange="handleChatFiles(this)">
                         <button class="btn btn-success" onclick="addChatHistory()" style="width: 100%;">添加记录</button>
                     </div>
-
-                    <!-- 历史记录列表 -->
-                    <div class="chat-list" id="chatList">
-                        <!-- 动态加载 -->
-                    </div>
+                    <div class="chat-list" id="chatList"></div>
                 </div>
             </div>
 
-            <!-- 右侧：分析功能 -->
             <div>
-                <!-- 智能分析 -->
                 <div class="card" style="margin-bottom: 20px;">
                     <div class="card-header">
                         <div class="card-title">🤖 智能分析</div>
                     </div>
-
                     <div class="form-group">
                         <label class="form-label">
                             <input type="checkbox" id="includeHistory" checked style="margin-right: 6px;">
                             包含历史聊天记录
                         </label>
                     </div>
-
                     <div class="form-group">
                         <label class="form-label">补充最新沟通（可选）</label>
                         <textarea class="form-textarea" id="newAnalysisChat" placeholder="输入文字记录，或点击下方上传文件..."></textarea>
-
-                        <!-- 文件上传区域 -->
                         <div class="upload-area" onclick="document.getElementById('analysisFileInput').click()" style="margin-top: 8px;">
                             <div style="font-size: 20px; margin-bottom: 4px;">📎</div>
                             <div style="font-size: 13px;">点击上传文件（图片、PDF、Word等）</div>
@@ -415,30 +455,21 @@
                         </div>
                         <input type="file" id="analysisFileInput" multiple accept="image/*,.pdf,.doc,.docx,.txt" style="display: none;" onchange="handleAnalysisFiles(this)">
                     </div>
-
                     <div class="analysis-tabs">
                         <div class="analysis-tab active" onclick="selectAnalysisType('full', this)">完整分析</div>
                         <div class="analysis-tab" onclick="selectAnalysisType('profile', this)">客户画像</div>
                         <div class="analysis-tab" onclick="selectAnalysisType('followup', this)">跟进节奏</div>
                         <div class="analysis-tab" onclick="selectAnalysisType('objection', this)">异议攻防</div>
                     </div>
-
                     <button class="btn" onclick="runAnalysis()" style="width: 100%;">开始分析</button>
-
-                    <!-- 分析结果展示 -->
-                    <div id="analysisResult" style="margin-top: 20px; display: none;">
-                        <!-- 动态加载 -->
-                    </div>
+                    <div id="analysisResult" style="margin-top: 20px; display: none;"></div>
                 </div>
 
-                <!-- 历史分析 -->
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">📜 历史分析</div>
                     </div>
-                    <div id="analysisHistoryList">
-                        <!-- 动态加载 -->
-                    </div>
+                    <div id="analysisHistoryList"></div>
                 </div>
             </div>
         </div>
@@ -447,21 +478,19 @@
     <script>
         const customerId = document.getElementById('customerId').value;
         let currentAnalysisType = 'full';
+        let analysisFiles = [];
 
-        // 页面加载
         document.addEventListener('DOMContentLoaded', function() {
             loadChatHistory();
             loadAnalysisHistory();
         });
 
-        // 选择分析类型
         function selectAnalysisType(type, element) {
             currentAnalysisType = type;
             document.querySelectorAll('.analysis-tab').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
         }
 
-        // 保存客户信息
         function saveCustomerInfo() {
             const data = new URLSearchParams();
             data.append('name', document.getElementById('name').value);
@@ -471,125 +500,265 @@
             data.append('email', document.getElementById('email').value);
             data.append('notes', document.getElementById('notes').value);
 
-            fetch('/api/customers/' + customerId, {
-                method: 'PUT',
-                body: data
-            })
+            fetch('/api/customers/' + customerId, { method: 'PUT', body: data })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) { alert('保存成功！'); }
+                else { alert('保存失败: ' + data.error); }
+            });
+        }
+
+        function loadChatHistory() {
+            fetch('/api/customers/' + customerId + '/chat')
             .then(r => r.json())
             .then(data => {
                 if (data.success) {
-                    alert('保存成功！');
-                } else {
-                    alert('保存失败: ' + data.error);
+                    document.getElementById('chatCount').textContent = '记录: ' + data.histories.length + '条';
+                    renderChatList(data.histories);
                 }
             });
         }
 
-        // 加载聊天记录
-        function loadChatHistory() {
-            fetch('/api/customers/' + customerId + '/chat')
-                .then(r => r.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById('chatCount').textContent = '记录: ' + data.histories.length + '条';
-                        renderChatList(data.histories);
-                    }
-                });
-        }
-
-        // 渲染聊天记录
         function renderChatList(histories) {
             const container = document.getElementById('chatList');
             if (!histories || histories.length === 0) {
                 container.innerHTML = '<div style="color: #999; text-align: center; padding: 20px;">暂无聊天记录</div>';
                 return;
             }
-
             let html = '';
             for (let h of histories.slice(0, 5)) {
                 const time = new Date(h.created_at).toLocaleString();
-                const content = h.content.substring(0, 100) + (h.content.length > 100 ? '...' : '');
-                html += `<div class="chat-item">
-                    <div class="chat-time">${time}</div>
-                    <div class="chat-content">${content.replace(/\n/g, '<br>')}</div>
-                </div>`;
+                html += renderChatItem(h, time);
             }
             container.innerHTML = html;
         }
 
-        // 处理聊天文件上传
-        function handleChatFiles(input) {
-            // 文件会在addChatHistory时一并上传
-            const files = input.files;
-            if (files.length > 0) {
-                let fileNames = [];
-                for (let i = 0; i < files.length; i++) {
-                    fileNames.push(files[i].name);
+        function renderChatItem(history, time) {
+            const content = history.content;
+            let parsed = null;
+
+            try {
+                parsed = JSON.parse(content);
+            } catch (e1) {
+                try {
+                    const jsonMatch = content.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
+                    if (jsonMatch) { parsed = JSON.parse(jsonMatch[1]); }
+                } catch (e2) {}
+            }
+
+            if (!parsed && content.includes('=== 文件识别内容 ===')) {
+                return renderFileContent(content, time, history);
+            }
+
+            if (parsed && parsed.type) {
+                switch (parsed.type) {
+                    case 'chat': return renderChatConversation(parsed, time, history);
+                    case 'document': return renderDocument(parsed, time, history);
+                    case 'contact': return renderContactCard(parsed, time, history);
+                    case 'text': return renderRawContent(parsed.content || content, time, history);
                 }
-                // 在文本框中显示已选择的文件
-                const contentTextarea = document.getElementById('newChatContent');
-                const currentContent = contentTextarea.value;
-                const fileInfo = '\n[已选择文件: ' + fileNames.join(', ') + ']';
-                contentTextarea.value = currentContent + fileInfo;
+            }
+            return renderRawContent(content, time, history);
+        }
+
+        function renderChatConversation(data, time, history) {
+            let messagesHtml = '';
+            if (data.messages && data.messages.length > 0) {
+                data.messages.forEach((msg, index) => {
+                    const isOwn = index % 2 === 1;
+                    const sender = msg.sender || '未知';
+                    const avatar = sender.charAt(0).toUpperCase();
+                    messagesHtml += `
+                        <div class="chat-message ${isOwn ? 'own' : ''}">
+                            <div class="chat-avatar">${avatar}</div>
+                            <div>
+                                <div class="chat-sender">${escapeHtml(sender)}</div>
+                                <div class="chat-bubble">${escapeHtml(msg.content)}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            let summaryHtml = '';
+            if (data.summary) {
+                summaryHtml = `
+                    <div class="chat-summary">
+                        <div class="chat-summary-title">💡 对话要点</div>
+                        <div>${escapeHtml(data.summary)}</div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="chat-item">
+                    <div class="chat-time">📅 ${time} ${data.participants ? '· 👥 ' + data.participants.join(', ') : ''}</div>
+                    <div class="chat-conversation">${messagesHtml}</div>
+                    ${summaryHtml}
+                    <div class="raw-text-toggle" onclick="toggleRawText(this, ${history.id})">📄 查看原始文本</div>
+                    <div id="raw-text-${history.id}" class="raw-text" style="display: none;">${escapeHtml(history.content)}</div>
+                </div>
+            `;
+        }
+
+        function renderDocument(data, time, history) {
+            let sectionsHtml = '';
+            if (data.sections && data.sections.length > 0) {
+                data.sections.forEach(section => {
+                    sectionsHtml += `
+                        <div class="doc-section">
+                            <div class="doc-heading">${escapeHtml(section.heading || '未命名段落')}</div>
+                            <div class="doc-content">${escapeHtml(section.content)}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            let keyPointsHtml = '';
+            if (data.key_points && data.key_points.length > 0) {
+                const points = data.key_points.map(p => `<li>${escapeHtml(p)}</li>`).join('');
+                keyPointsHtml = `
+                    <div class="doc-keypoints">
+                        <div class="doc-keypoints-title">📋 关键要点</div>
+                        <ul>${points}</ul>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="chat-item">
+                    <div class="chat-time">📅 ${time} ${data.title ? '· 📄 ' + data.title : ''}</div>
+                    ${sectionsHtml}
+                    ${keyPointsHtml}
+                    <div class="raw-text-toggle" onclick="toggleRawText(this, ${history.id})">📄 查看原始文本</div>
+                    <div id="raw-text-${history.id}" class="raw-text" style="display: none;">${escapeHtml(history.content)}</div>
+                </div>
+            `;
+        }
+
+        function renderContactCard(data, time, history) {
+            return `
+                <div class="chat-item">
+                    <div class="chat-time">📅 ${time} · 📇 名片识别</div>
+                    <div class="contact-card">
+                        <div class="contact-name">${escapeHtml(data.name || '未知姓名')}</div>
+                        <div class="contact-title">${escapeHtml(data.title || '')}</div>
+                        ${data.company ? `<div class="contact-item">🏢 ${escapeHtml(data.company)}</div>` : ''}
+                        ${data.phone ? `<div class="contact-item">📞 ${escapeHtml(data.phone)}</div>` : ''}
+                        ${data.email ? `<div class="contact-item">✉️ ${escapeHtml(data.email)}</div>` : ''}
+                        ${data.address ? `<div class="contact-item">📍 ${escapeHtml(data.address)}</div>` : ''}
+                        ${data.other ? `<div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 12px; opacity: 0.8;">${escapeHtml(data.other)}</div>` : ''}
+                    </div>
+                    <div class="raw-text-toggle" onclick="toggleRawText(this, ${history.id})">📄 查看原始文本</div>
+                    <div id="raw-text-${history.id}" class="raw-text" style="display: none;">${escapeHtml(history.content)}</div>
+                </div>
+            `;
+        }
+
+        function renderFileContent(content, time, history) {
+            const parts = content.split('=== 文件识别内容 ===');
+            const fileContent = parts[1] ? parts[1].trim() : '';
+
+            let parsed = null;
+            try { parsed = JSON.parse(fileContent); } catch (e) {}
+
+            if (parsed) {
+                const tempHistory = { ...history, content: fileContent };
+                switch (parsed.type) {
+                    case 'chat': return renderChatConversation(parsed, time, tempHistory);
+                    case 'document': return renderDocument(parsed, time, tempHistory);
+                    case 'contact': return renderContactCard(parsed, time, tempHistory);
+                }
+            }
+            return renderRawContent(content, time, history);
+        }
+
+        function renderRawContent(content, time, history) {
+            const preview = content.substring(0, 200) + (content.length > 200 ? '...' : '');
+            return `
+                <div class="chat-item">
+                    <div class="chat-time">📅 ${time}</div>
+                    <div style="font-size: 14px; color: #333; line-height: 1.6;">${escapeHtml(preview).replace(/\n/g, '<br>')}</div>
+                    ${content.length > 200 ? `<div class="raw-text-toggle" onclick="toggleRawText(this, ${history.id})">📄 展开完整内容</div>` : ''}
+                    <div id="raw-text-${history.id}" class="raw-text" style="display: none;">${escapeHtml(content)}</div>
+                </div>
+            `;
+        }
+
+        function toggleRawText(element, id) {
+            const rawTextDiv = document.getElementById('raw-text-' + id);
+            if (rawTextDiv.style.display === 'none') {
+                rawTextDiv.style.display = 'block';
+                element.innerHTML = '📄 收起原始文本';
+            } else {
+                rawTextDiv.style.display = 'none';
+                element.innerHTML = '📄 查看原始文本';
             }
         }
 
-        // 处理分析文件上传
-        let analysisFiles = [];
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function handleChatFiles(input) {
+            const files = input.files;
+            if (files.length > 0) {
+                let fileNames = [];
+                for (let i = 0; i < files.length; i++) { fileNames.push(files[i].name); }
+                const contentTextarea = document.getElementById('newChatContent');
+                const currentContent = contentTextarea.value;
+                const fileInfo = currentContent ? '\n' : '';
+                contentTextarea.value = currentContent + fileInfo + '[已选择文件: ' + fileNames.join(', ') + ']';
+
+                const uploadArea = document.querySelector('.upload-area');
+                uploadArea.style.borderColor = '#52c41a';
+                uploadArea.style.background = '#f6ffed';
+                uploadArea.innerHTML = '<div style="font-size: 24px; margin-bottom: 8px;">✅</div><div>已选择 ' + files.length + ' 个文件</div><div style="font-size: 12px; color: #52c41a; margin-top: 4px;">' + fileNames.join(', ') + '</div>';
+            }
+        }
+
         function handleAnalysisFiles(input) {
             analysisFiles = input.files;
             const displayDiv = document.getElementById('selectedAnalysisFiles');
-
             if (analysisFiles.length > 0) {
                 let fileNames = [];
-                for (let i = 0; i < analysisFiles.length; i++) {
-                    fileNames.push(analysisFiles[i].name);
-                }
+                for (let i = 0; i < analysisFiles.length; i++) { fileNames.push(analysisFiles[i].name); }
                 displayDiv.innerHTML = '已选择: ' + fileNames.join(', ');
             } else {
                 displayDiv.innerHTML = '';
             }
         }
 
-        // 添加聊天记录
         async function addChatHistory() {
             const content = document.getElementById('newChatContent').value;
             const fileInput = document.getElementById('chatFileInput');
-
             const formData = new FormData();
 
-            // 如果有文件，先上传文件
             if (fileInput.files.length > 0) {
-                for (let file of fileInput.files) {
-                    formData.append('files', file);
-                }
+                for (let file of fileInput.files) { formData.append('files', file); }
 
-                // 上传文件并获取识别内容
                 try {
-                    const uploadResponse = await fetch('/api/upload-files', {
-                        method: 'POST',
-                        body: formData
-                    });
+                    const uploadResponse = await fetch('/api/upload-files', { method: 'POST', body: formData });
                     const uploadData = await uploadResponse.json();
 
                     if (uploadData.success && uploadData.extracted_text) {
-                        // 重新创建FormData，包含识别出的内容
                         const chatFormData = new FormData();
-                        const combinedContent = content
-                            ? content + '\n\n=== 文件识别内容 ===\n' + uploadData.extracted_text
-                            : uploadData.extracted_text;
+                        const combinedContent = content ? content + '\n\n=== 文件识别内容 ===\n' + uploadData.extracted_text : uploadData.extracted_text;
                         chatFormData.append('content', combinedContent);
 
-                        // 发送给聊天历史API
-                        const response = await fetch('/api/customers/' + customerId + '/chat', {
-                            method: 'POST',
-                            body: chatFormData
-                        });
+                        const response = await fetch('/api/customers/' + customerId + '/chat', { method: 'POST', body: chatFormData });
                         const data = await response.json();
 
                         if (data.success) {
                             document.getElementById('newChatContent').value = '';
                             fileInput.value = '';
+                            const uploadArea = document.querySelector('.upload-area');
+                            uploadArea.style.borderColor = '#ccc';
+                            uploadArea.style.background = '#fafafa';
+                            uploadArea.innerHTML = '<div style="font-size: 24px; margin-bottom: 8px;">📎</div><div>点击上传聊天记录截图或文件</div>';
                             loadChatHistory();
                             alert('添加成功！');
                         } else {
@@ -597,24 +766,22 @@
                         }
                         return;
                     }
-                } catch (error) {
-                    console.error('文件上传失败:', error);
-                }
+                } catch (error) { console.error('文件上传失败:', error); }
             }
 
-            // 没有文件的情况，直接发送文字内容
             const chatFormData = new FormData();
             chatFormData.append('content', content);
 
-            fetch('/api/customers/' + customerId + '/chat', {
-                method: 'POST',
-                body: chatFormData
-            })
+            fetch('/api/customers/' + customerId + '/chat', { method: 'POST', body: chatFormData })
             .then(r => r.json())
             .then(data => {
                 if (data.success) {
                     document.getElementById('newChatContent').value = '';
                     fileInput.value = '';
+                    const uploadArea = document.querySelector('.upload-area');
+                    uploadArea.style.borderColor = '#ccc';
+                    uploadArea.style.background = '#fafafa';
+                    uploadArea.innerHTML = '<div style="font-size: 24px; margin-bottom: 8px;">📎</div><div>点击上传聊天记录截图或文件</div>';
                     loadChatHistory();
                     alert('添加成功！');
                 } else {
@@ -623,68 +790,44 @@
             });
         }
 
-        // 运行分析
         async function runAnalysis() {
             const includeHistory = document.getElementById('includeHistory').checked;
             let newChat = document.getElementById('newAnalysisChat').value;
-
             const resultDiv = document.getElementById('analysisResult');
             resultDiv.style.display = 'block';
             resultDiv.innerHTML = '<div class="loading">正在处理文件...</div>';
 
-            // 如果有文件，先上传文件获取识别内容
             let extractedContent = '';
             if (analysisFiles && analysisFiles.length > 0) {
                 const fileFormData = new FormData();
-                for (let file of analysisFiles) {
-                    fileFormData.append('files', file);
-                }
+                for (let file of analysisFiles) { fileFormData.append('files', file); }
 
                 try {
-                    const uploadResponse = await fetch('/api/upload-files', {
-                        method: 'POST',
-                        body: fileFormData
-                    });
+                    const uploadResponse = await fetch('/api/upload-files', { method: 'POST', body: fileFormData });
                     const uploadData = await uploadResponse.json();
-
-                    if (uploadData.success && uploadData.extracted_text) {
-                        extractedContent = uploadData.extracted_text;
-                    }
-                } catch (error) {
-                    console.error('文件上传失败:', error);
-                }
+                    if (uploadData.success && uploadData.extracted_text) { extractedContent = uploadData.extracted_text; }
+                } catch (error) { console.error('文件上传失败:', error); }
             }
 
-            // 合并文字输入和文件识别内容
             if (extractedContent) {
-                if (newChat) {
-                    newChat = newChat + '\n\n=== 文件识别内容 ===\n' + extractedContent;
-                } else {
-                    newChat = extractedContent;
-                }
+                newChat = newChat ? newChat + '\n\n=== 文件识别内容 ===\n' + extractedContent : extractedContent;
             }
 
             resultDiv.innerHTML = '<div class="loading">AI分析中，请稍候...</div>';
 
-            // 发送分析请求
             const formData = new FormData();
             formData.append('analysis_type', currentAnalysisType);
             formData.append('include_history', includeHistory);
             if (newChat) formData.append('new_chat', newChat);
 
-            fetch('/api/customers/' + customerId + '/analyze', {
-                method: 'POST',
-                body: formData
-            })
+            fetch('/api/customers/' + customerId + '/analyze', { method: 'POST', body: formData })
             .then(r => r.json())
             .then(data => {
                 if (data.success) {
-                    // 清空文件选择
                     analysisFiles = [];
                     document.getElementById('analysisFileInput').value = '';
                     document.getElementById('selectedAnalysisFiles').innerHTML = '';
                     document.getElementById('newAnalysisChat').value = '';
-
                     renderAnalysisResult(data.result);
                     loadAnalysisHistory();
                 } else {
@@ -693,93 +836,197 @@
             });
         }
 
-        // 渲染分析结果
         function renderAnalysisResult(result) {
             const container = document.getElementById('analysisResult');
             let html = '';
 
-            // 客户画像
-            if (result['性格类型']) {
-                const prob = result['成单概率']?.概率 || '50%';
-                const probNum = parseInt(prob) || 50;
-                const color = probNum >= 70 ? '#52c41a' : (probNum >= 40 ? '#faad14' : '#ff4d4f');
-
-                html += `<div class="result-card">
-                    <div class="result-title">客户画像</div>
-                    <div class="probability-bar">
-                        <div class="probability-value" style="color: ${color}">${prob}</div>
-                        <div class="probability-bg">
-                            <div class="probability-fill" style="width: ${probNum}%; background: ${color}"></div>
-                        </div>
-                    </div>
-                    <div class="result-content">
-                        <strong>性格类型:</strong> ${result['性格类型']?.类型 || '未知'}<br>
-                        <strong>显性需求:</strong> ${result['需求层级']?.显性需求 || '未识别'}<br>
-                        <strong>隐性需求:</strong> ${result['需求层级']?.隐性需求 || '未识别'}
-                    </div>
-                </div>`;
+            if (result['客户画像'] || result['性格类型']) {
+                html += renderProfileCard(result['客户画像'] || result);
+            }
+            if (result['跟进节奏'] || result['7天跟进计划']) {
+                html += renderFollowupCard(result['跟进节奏'] || result);
+            }
+            if (result['异议攻防'] || result['异议攻防话术']) {
+                html += renderObjectionCard(result['异议攻防'] || result);
             }
 
-            // 跟进计划
-            if (result['7天跟进计划']) {
-                html += `<div class="result-card">
-                    <div class="result-title">跟进计划</div>
-                    <div class="result-content">
-                        <strong>当前阶段:</strong> ${result['当前阶段'] || '未知'}<br>
-                        ${result['7天跟进计划'].slice(0, 3).map((day, i) => `
-                            <div style="margin-top: 8px; padding: 8px; background: white; border-radius: 4px;">
-                                <strong>第${i+1}天:</strong> ${day['核心目标'] || '跟进'}<br>
-                                <small>${day['推荐话术要点']?.substring(0, 50) || ''}...</small>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>`;
-            }
-
-            container.innerHTML = html || '<div class="result-card"><div class="result-content">' + JSON.stringify(result, null, 2) + '</div></div>';
+            container.innerHTML = html || '<div class="analysis-result-card"><div class="analysis-result-body"><pre style="font-size:12px;overflow-x:auto;">' + JSON.stringify(result, null, 2) + '</pre></div></div>';
         }
 
-        // 加载分析历史
+        function renderProfileCard(data) {
+            const probability = (data['成单概率'] && data['成单概率']['概率']) ? data['成单概率']['概率'] : (data['成单概率'] || '50%');
+            const probNum = parseInt(probability) || 50;
+            const probClass = probNum >= 70 ? 'analysis-prob-high' : (probNum >= 40 ? 'analysis-prob-medium' : 'analysis-prob-low');
+
+            let html = '<div class="analysis-result-card">' +
+                '<div class="analysis-result-header">客户画像分析</div>' +
+                '<div class="analysis-result-body">' +
+                    '<div class="analysis-section">' +
+                        '<div class="analysis-section-title">成单概率评估</div>' +
+                        '<div class="analysis-prob-bar">' +
+                            '<div class="analysis-prob-value">' + probability + '</div>' +
+                            '<div class="analysis-prob-bg">' +
+                                '<div class="analysis-prob-fill ' + probClass + '" style="width: ' + probNum + '%"></div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="analysis-highlight-box">' +
+                            '<div class="analysis-highlight-label">判断依据</div>' +
+                            '<div class="analysis-highlight-value">' + ((data['成单概率'] && data['成单概率']['依据']) ? data['成单概率']['依据'] : (data['成单概率'] && data['成单概率']['预计成交周期']) ? data['成单概率']['预计成交周期'] : '暂无详细说明') + '</div>' +
+                        '</div>' +
+                    '</div>';
+
+            if (data['性格类型']) {
+                html += '<div class="analysis-section">' +
+                    '<div class="analysis-section-title">性格特征</div>' +
+                    '<div class="analysis-highlight-box">' +
+                        '<div class="analysis-highlight-label">类型：' + (data['性格类型']['类型'] || '未知') + '</div>' +
+                        '<div class="analysis-highlight-value">' + (data['性格类型']['特征'] || '') + '</div>' +
+                    '</div>' +
+                    '<p class="analysis-section-content"><strong>沟通偏好：</strong>' + (data['性格类型']['沟通偏好'] || '') + '</p>' +
+                '</div>';
+            }
+
+            if (data['需求层级']) {
+                html += '<div class="analysis-section">' +
+                    '<div class="analysis-section-title">需求分析</div>' +
+                    '<div class="analysis-highlight-box">' +
+                        '<div class="analysis-highlight-label">显性需求</div>' +
+                        '<div class="analysis-highlight-value">' + (data['需求层级']['显性需求'] || '') + '</div>' +
+                    '</div>' +
+                    '<div class="analysis-highlight-box">' +
+                        '<div class="analysis-highlight-label">隐性需求</div>' +
+                        '<div class="analysis-highlight-value">' + (data['需求层级']['隐性需求'] || '') + '</div>' +
+                    '</div>' +
+                    '<p class="analysis-section-content">' +
+                        '<span class="analysis-tag" style="background:#e6f7ff;color:#1890ff;">紧迫度 ' + (data['需求层级']['需求紧迫度'] || '-') + '/10</span>' +
+                        '<span class="analysis-tag" style="background:#fffbe6;color:#faad14;">' + (data['需求层级']['需求真伪'] || '') + '</span>' +
+                    '</p>' +
+                '</div>';
+            }
+
+            if (data['隐性顾虑'] && data['隐性顾虑'].length) {
+                html += '<div class="analysis-section">' +
+                    '<div class="analysis-section-title">隐性顾虑</div>' +
+                    '<ul class="analysis-info-list">';
+                for (var i = 0; i < data['隐性顾虑'].length; i++) {
+                    html += '<li>' + data['隐性顾虑'][i] + '</li>';
+                }
+                html += '</ul></div>';
+            }
+
+            if (data['风险预警'] && data['风险预警'].length) {
+                html += '<div class="analysis-section">' +
+                    '<div class="analysis-section-title">风险预警</div>';
+                for (var i = 0; i < data['风险预警'].length; i++) {
+                    html += '<div class="analysis-warning-box">' +
+                        '<div class="analysis-warning-title">风险提示</div>' +
+                        data['风险预警'][i] +
+                    '</div>';
+                }
+                html += '</div>';
+            }
+
+            html += '</div></div>';
+            return html;
+        }
+
+        function renderFollowupCard(data) {
+            const plan = data['7天跟进计划'] || data['跟进计划'] || [];
+
+            let html = '<div class="analysis-result-card">' +
+                '<div class="analysis-result-header">7天跟进节奏规划</div>' +
+                '<div class="analysis-result-body">' +
+                    '<div class="analysis-highlight-box">' +
+                        '<div class="analysis-highlight-label">当前阶段：' + (data['当前阶段'] || '未知') + '</div>' +
+                        '<div class="analysis-highlight-value">' + (data['阶段判断依据'] || '') + '</div>' +
+                    '</div>';
+
+            if (plan.length) {
+                html += '<div class="analysis-section">' +
+                    '<div class="analysis-section-title">跟进计划</div>';
+                for (var i = 0; i < plan.length; i++) {
+                    var day = plan[i];
+                    html += '<div class="analysis-script-card">' +
+                        '<div class="analysis-script-title">第 ' + (day['第几天'] || day['天'] || (i+1)) + ' 天 - ' + (day['最佳触达时间'] || '') + '</div>' +
+                        '<p class="analysis-section-content"><strong>触达方式：</strong><span class="analysis-tag" style="background:#e6f7ff;color:#1890ff;">' + (day['触达方式'] || '') + '</span></p>' +
+                        '<p class="analysis-section-content"><strong>核心目标：</strong>' + (day['核心目标'] || '') + '</p>' +
+                        '<p class="analysis-section-content"><strong>必做动作：</strong>' + (day['必做动作'] || '') + '</p>' +
+                        '<div class="analysis-script-content">' +
+                            '<strong>话术要点：</strong><br>' + (day['推荐话术要点'] || '') +
+                        '</div>' +
+                        (day['禁忌话术'] ? '<p style="margin-top:8px;color:#ff4d4f;font-size:12px;"><strong>禁忌：</strong>' + day['禁忌话术'] + '</p>' : '') +
+                    '</div>';
+                }
+                html += '</div>';
+            }
+
+            html += '</div></div>';
+            return html;
+        }
+
+        function renderObjectionCard(data) {
+            const objections = data['异议攻防话术'] || data;
+            const scenarios = ['太贵了', '再考虑', '比价中', '要商量', '拖延症', '沉默不回'];
+            const titles = ['客户说：太贵了', '客户说：再考虑考虑', '客户说：正在对比其他家', '客户说：需要和领导商量', '客户一直拖延', '客户已读不回'];
+
+            let html = '<div class="analysis-result-card">' +
+                '<div class="analysis-result-header">异议攻防话术库</div>' +
+                '<div class="analysis-result-body">';
+
+            for (var i = 0; i < scenarios.length; i++) {
+                var item = objections[scenarios[i]];
+                if (!item) continue;
+
+                html += '<div class="analysis-section">' +
+                    '<div class="analysis-section-title">' + titles[i] + '</div>';
+
+                if (item['攻心逻辑']) {
+                    html += '<p class="analysis-section-content"><strong>攻心逻辑：</strong>' + item['攻心逻辑'] + '</p>';
+                }
+                if (item['定制话术'] || item['话术']) {
+                    html += '<div class="analysis-script-card">' +
+                        '<div class="analysis-script-title">推荐话术</div>' +
+                        '<div class="analysis-script-content">' + (item['定制话术'] || item['话术']) + '</div>' +
+                    '</div>';
+                }
+                if (item['下一步动作']) {
+                    html += '<p class="analysis-section-content"><strong>下一步：</strong>' + item['下一步动作'] + '</p>';
+                }
+
+                html += '</div>';
+            }
+
+            html += '</div></div>';
+            return html;
+        }
+
         function loadAnalysisHistory() {
             fetch('/api/customers/' + customerId + '/analysis')
-                .then(r => r.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById('analysisCount').textContent = '分析: ' + data.histories.length + '次';
-                        renderAnalysisHistory(data.histories);
-                    }
-                });
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('analysisCount').textContent = '分析: ' + data.histories.length + '次';
+                    renderAnalysisHistory(data.histories);
+                }
+            });
         }
 
-        // 渲染分析历史
         function renderAnalysisHistory(histories) {
             const container = document.getElementById('analysisHistoryList');
             if (!histories || histories.length === 0) {
                 container.innerHTML = '<div style="color: #999; text-align: center; padding: 20px;">暂无分析记录</div>';
                 return;
             }
-
             let html = '';
+            const typeMap = { 'full': '完整分析', 'profile': '客户画像', 'followup': '跟进节奏', 'objection': '异议攻防' };
             for (let h of histories.slice(0, 5)) {
                 const time = new Date(h.created_at).toLocaleString();
-                const typeMap = {
-                    'full': '完整分析',
-                    'profile': '客户画像',
-                    'followup': '跟进节奏',
-                    'objection': '异议攻防'
-                };
-                html += `<div class="history-item" onclick="viewHistoryDetail(${h.id})">
+                html += `<div class="history-item" onclick="alert('查看历史分析详情功能开发中...')">
                     <div class="history-type">${typeMap[h.analysis_type] || h.analysis_type}</div>
                     <div class="history-time">${time}</div>
                 </div>`;
             }
             container.innerHTML = html;
-        }
-
-        // 查看历史详情
-        function viewHistoryDetail(historyId) {
-            // 可以实现弹窗展示详细分析结果
-            alert('查看历史分析详情功能开发中...');
         }
     </script>
 </body>
